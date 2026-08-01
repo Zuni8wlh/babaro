@@ -286,15 +286,20 @@
   .port-frame-wrap{ position:relative; flex:1; overflow:hidden; background:var(--gray-bg); }
   .port-frame-scale{ position:absolute; top:0; left:0; transform-origin:top left; will-change:transform; }
   .port-frame-scale iframe{
-    display:block; width:1440px; height:6000px; border:0; pointer-events:none;
-    animation:portScroll 28s ease-in-out infinite;
+    display:block; width:1440px; height:3600px; border:0; pointer-events:none;
+    animation:portScroll 26s ease-in-out infinite;
   }
   .port-card:hover .port-frame-scale iframe{ animation-play-state:paused; }
   @keyframes portScroll{
     0%,8%{ transform:translateY(0); }
-    45%,55%{ transform:translateY(-4200px); }
+    45%,55%{ transform:translateY(-2300px); }
     92%,100%{ transform:translateY(0); }
   }
+  .port-fallback{
+    height:100%; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--gray-bg), var(--gray-line));
+  }
+  .port-fallback span{ font-size:13px; font-weight:500; color:var(--text-muted); }
   .port-frame-wrap.pending{ display:flex; align-items:center; justify-content:center; }
   .port-pending-note{ font-size:12.5px; color:var(--text-muted); text-align:center; padding:0 24px; }
   .port-live-badge{
@@ -461,7 +466,7 @@
     <div class="hero-visual reveal in" id="heroVisual">
       <div class="photo-frame">
         <div class="port-frame-wrap" style="height:100%; width:100%;">
-          <div class="port-frame-scale"><iframe src="https://ondo-iota.vercel.app" loading="lazy" tabindex="-1" title="Ondo preview"></iframe></div>
+          <div class="port-frame-scale"><iframe data-src="https://ondo-iota.vercel.app" tabindex="-1" title="Ondo preview"></iframe></div>
         </div>
       </div>
       <div class="stat-tag" id="floatTag1">
@@ -640,7 +645,7 @@
         </div>
         <div class="port-frame-wrap">
           <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe src="https://lithen.vercel.app" loading="lazy" tabindex="-1" title="Lithen preview"></iframe></div>
+          <div class="port-frame-scale"><iframe data-src="https://lithen.vercel.app" tabindex="-1" title="Lithen preview"></iframe></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Lithen</span>
@@ -654,7 +659,7 @@
         </div>
         <div class="port-frame-wrap">
           <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe src="https://wanderly-plum.vercel.app" loading="lazy" tabindex="-1" title="Wanderly preview"></iframe></div>
+          <div class="port-frame-scale"><iframe data-src="https://wanderly-plum.vercel.app" tabindex="-1" title="Wanderly preview"></iframe></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Wanderly</span>
@@ -863,13 +868,24 @@
       if(tag2) tag2.style.transform = `translate(${x*-10}px, ${y*-10}px)`;
     });
   }
-  // portfolio/hero preview scaling — fit the desktop-width iframe into its box, stays correct via ResizeObserver
+  // portfolio/hero preview scaling + lazy-load — heavy live iframes only run on desktop, and only once near view
   function initFrameScaling(){
+    const isDesktop = window.matchMedia('(min-width:769px)').matches;
     document.querySelectorAll('.port-frame-wrap').forEach(wrap=>{
       const scaler = wrap.querySelector('.port-frame-scale');
       if(!scaler) return;
       const iframe = scaler.querySelector('iframe');
-      const baseWidth = 1440; // matches the fixed CSS width set on .port-frame-scale iframe
+
+      if(!isDesktop){
+        // too heavy for mobile devices — show a lightweight static fallback instead
+        const fallback = document.createElement('div');
+        fallback.className = 'port-fallback';
+        fallback.innerHTML = '<span>Tap to view live site ↗</span>';
+        scaler.replaceWith(fallback);
+        return;
+      }
+
+      const baseWidth = 1440;
       const applyScale = ()=>{
         const w = wrap.clientWidth;
         if(w > 0){ scaler.style.transform = `scale(${w / baseWidth})`; }
@@ -880,6 +896,17 @@
       } else {
         window.addEventListener('resize', applyScale);
       }
+
+      // only load the actual site once the card is about to scroll into view
+      const loadObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting && !iframe.src){
+            iframe.src = iframe.dataset.src;
+            loadObserver.disconnect();
+          }
+        });
+      }, { rootMargin:'300px' });
+      loadObserver.observe(wrap);
     });
   }
   initFrameScaling();
