@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Babaro — Web & Digital Platform Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#121212;
+    --black-soft:#1C1C1C;
+    --white:#FFFFFF;
+    --gray-bg:#F6F6F4;
+    --gray-line:#E4E3DF;
+    --text:#171717;
+    --text-muted:#75746E;
+    --text-on-dark:#F3F2EE;
+    --text-on-dark-muted:#9A9A94;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  .scroll-bar{ position:fixed; top:0; left:0; width:100%; height:3px; z-index:200; background:transparent; }
+  .scroll-bar-fill{ height:100%; width:0%; background:var(--black); transition:width .1s linear; }
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--white);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.1;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  section{position:relative;}
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:500;
+    color:var(--text-muted);
+    padding:8px 16px;
+    border:1px solid var(--gray-line);
+    border-radius:100px;
+    margin-bottom:22px;
+  }
+  .eyebrow.on-dark{ color:var(--text-on-dark-muted); border-color:rgba(255,255,255,0.14); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 28px;
+    border-radius:100px;
+    font-size:14.5px; font-weight:600;
+    font-family:'Inter', sans-serif;
+    cursor:pointer; border:none;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{ background:var(--black); color:var(--white); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(18,18,18,0.22); }
+  .btn-primary svg{ transition:transform .25s ease; }
+  .btn-primary:hover svg{ transform:translate(3px,-3px); }
+  .btn-outline{ background:transparent; color:var(--text); border:1px solid var(--gray-line); }
+  .btn-outline:hover{ border-color:var(--text); }
+  .btn-white{ background:var(--white); color:var(--black); }
+  .btn-white:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,0.3); }
+  .btn-ghost-dark{ background:transparent; color:var(--text-on-dark); border:1px solid rgba(255,255,255,0.18); }
+  .btn-ghost-dark:hover{ border-color:rgba(255,255,255,0.4); }
+
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--gray-line);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:20px 32px; max-width:1180px; margin:0 auto; }
+  .logo{ font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:20px; display:flex; align-items:center; gap:3px; }
+  .logo .dot{ width:6px; height:6px; background:var(--black); display:inline-block; border-radius:50%; margin-left:2px; }
+  .nav-links{ display:flex; gap:36px; }
+  .nav-links a{ font-size:14px; font-weight:500; color:var(--text-muted); transition:color .2s ease; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{ display:flex; align-items:center; gap:18px; }
+  .menu-btn{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .menu-btn span{ display:block; width:22px; height:2px; background:var(--text); margin:5px 0; }
+
+  /* hero */
+  .hero{ padding:60px 0 80px; background:var(--white); }
+  .hero-inner{ display:grid; grid-template-columns:1fr 0.95fr; gap:56px; align-items:center; }
+  .hero h1{ font-size:clamp(38px, 4.6vw, 58px); margin-bottom:22px; }
+  .hero p.lead{ font-size:17px; color:var(--text-muted); max-width:440px; line-height:1.65; margin-bottom:34px; }
+  .hero-cta{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .hero-note{ font-size:13px; color:var(--text-muted); margin-top:20px; }
+
+  .hero-visual{ position:relative; }
+  .photo-frame{
+    width:100%; aspect-ratio:1/1.02; border-radius:28px;
+    background:var(--gray-bg); border:1px solid var(--gray-line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+    color:var(--text-muted); position:relative; overflow:hidden;
+  }
+  .photo-frame .icon{
+    width:52px; height:52px; border-radius:50%; border:1.5px solid var(--gray-line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .photo-frame span{ font-size:13px; text-align:center; padding:0 30px; }
+  .stat-tag{
+    position:absolute; top:22px; left:-18px;
+    background:var(--white); border:1px solid var(--gray-line);
+    border-radius:16px; padding:12px 16px;
+    display:flex; align-items:center; gap:10px;
+    box-shadow:0 14px 30px -12px rgba(0,0,0,0.14);
+    font-size:12.5px; font-weight:600;
+  }
+  .stat-tag .avatars{ display:flex; }
+  .stat-tag .avatars div{
+    width:22px; height:22px; border-radius:50%; background:var(--gray-line);
+    border:2px solid var(--white); margin-left:-8px;
+  }
+  .stat-tag .avatars div:first-child{ margin-left:0; }
+  .caption-tag{
+    position:absolute; bottom:26px; left:26px;
+    background:var(--black); color:var(--white);
+    border-radius:100px; padding:11px 20px;
+    font-size:13px; font-weight:500;
+    display:flex; align-items:center; gap:8px;
+  }
+  .caption-tag .spark{ width:7px; height:7px; background:var(--white); transform:rotate(45deg); border-radius:1px; }
+
+  /* logo strip */
+  .strip{ padding:36px 0; border-top:1px solid var(--gray-line); border-bottom:1px solid var(--gray-line); }
+  .strip-inner{ display:flex; align-items:center; gap:52px; overflow:hidden; }
+  .strip-track{ display:flex; gap:56px; animation:scroll 26s linear infinite; }
+  .strip-track span{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:18px; color:var(--text-muted); opacity:.5; white-space:nowrap; }
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* about */
+  .about{ padding:90px 0 60px; }
+  .about-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:start; }
+  .about h2{ font-size:clamp(28px,3vw,38px); margin-bottom:20px; }
+  .about-grid p{ color:var(--text-muted); line-height:1.75; font-size:15.5px; margin-bottom:14px; max-width:520px; }
+  .about-grid p:last-child{ margin-bottom:0; }
+
+  .stat-block{
+    margin-top:52px; background:var(--black); border-radius:24px; padding:46px;
+    display:grid; grid-template-columns:0.7fr 1.3fr; gap:36px; align-items:center;
+  }
+  .stat-num{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:56px; color:var(--white); line-height:1; }
+  .stat-num small{ display:block; font-family:'Inter',sans-serif; font-weight:500; font-size:13.5px; color:var(--text-on-dark-muted); margin-top:12px; letter-spacing:0; }
+  .pill-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .pill{ font-size:13px; font-weight:500; color:var(--text-on-dark); border:1px solid rgba(255,255,255,0.16); border-radius:100px; padding:9px 16px; }
+
+  /* why babaro — features */
+  .features{ padding:10px 0 60px; }
+  .features-head{ max-width:560px; margin-bottom:48px; }
+  .features-head h2{ font-size:clamp(28px,3vw,38px); margin-bottom:14px; }
+  .features-head p{ color:var(--text-muted); font-size:15px; line-height:1.65; }
+  .features-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  .feature-card{
+    border:1px solid var(--gray-line); border-radius:16px; padding:28px 24px;
+    background:var(--white); transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .feature-card:hover{ transform:translateY(-5px); box-shadow:0 20px 36px -20px rgba(0,0,0,0.16); }
+  .feature-icon{
+    width:44px; height:44px; border-radius:12px; background:var(--gray-bg);
+    display:flex; align-items:center; justify-content:center; color:var(--black);
+    margin-bottom:20px;
+  }
+  .feature-card h3{ font-size:16.5px; margin-bottom:8px; }
+  .feature-card p{ font-size:13.5px; color:var(--text-muted); line-height:1.6; font-weight:400; }
+
+  /* process — sticky note cards */
+  .process{ padding:30px 0 80px; }
+  .process-head{ margin-bottom:56px; }
+  .process-head h2{ font-size:clamp(28px,3vw,38px); max-width:480px; margin-bottom:12px; }
+  .process-head p{ color:var(--text-muted); max-width:420px; font-size:14.5px; line-height:1.6; }
+
+  .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; padding-top:14px; }
+  .proc-card{
+    background:var(--white); border:1px solid var(--gray-line); border-radius:16px;
+    padding:28px 22px; position:relative;
+    box-shadow:0 18px 34px -20px rgba(0,0,0,0.14);
+    transition:transform .3s ease;
+  }
+  .proc-card:nth-child(2){ transform:rotate(-1.4deg); }
+  .proc-card:nth-child(4){ transform:rotate(1.2deg); }
+  .proc-card:hover{ transform:translateY(-6px) rotate(0deg); }
+  .proc-card::before{
+    content:''; position:absolute; top:-6px; left:22px;
+    width:11px; height:11px; border-radius:50%; background:var(--black);
+  }
+  .proc-num{ font-size:13px; color:var(--text-muted); margin-bottom:18px; display:block; }
+  .proc-card h3{ font-size:19px; margin-bottom:10px; }
+  .proc-card p{ font-size:13.8px; color:var(--text-muted); line-height:1.6; font-weight:400; }
+
+  /* services (dark) */
+  .services{ background:var(--black); color:var(--text-on-dark); padding:80px 0; border-radius:28px; margin:0 24px; }
+  .services-inner{ padding:0 32px; }
+  .services-head{ max-width:560px; margin-bottom:56px; }
+  .services-head h2{ font-size:clamp(28px,3vw,38px); color:var(--text-on-dark); margin-bottom:16px; }
+  .services-head p{ color:var(--text-on-dark-muted); line-height:1.7; font-size:15px; font-weight:400; }
+
+  .service-grid{ display:flex; flex-direction:column; gap:14px; }
+  .service-card{
+    background:var(--black-soft); border:1px solid rgba(255,255,255,0.08); border-radius:16px;
+    padding:26px; display:flex; flex-direction:column; justify-content:space-between;
+    transition:background .3s ease, transform .3s ease, border-color .3s ease;
+  }
+  .service-card:hover{ background:#232323; transform:translateY(-4px); border-color:rgba(255,255,255,0.16); }
+  .service-card.big{ background:linear-gradient(160deg,#1c1c1c,#242420); }
+  .service-card.wide{
+    flex-direction:column; align-items:flex-start; gap:16px;
+    background:linear-gradient(160deg,#1c1c1c,#242420);
+  }
+  .service-card .icon-wrap{ width:42px; height:42px; border-radius:11px; background:rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; color:var(--text-on-dark); margin-bottom:18px; }
+  .service-card h4{ font-size:16.5px; color:var(--text-on-dark); font-weight:700; }
+  .service-card.big h4, .service-card.wide h4{ font-size:20px; margin-top:2px; }
+  .service-card p{ font-size:13px; color:var(--text-on-dark-muted); margin-top:8px; line-height:1.55; font-weight:400; }
+  .service-card .tag-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .service-card .tag-row span{ font-size:11.5px; font-weight:500; color:var(--text-on-dark-muted); border:1px solid rgba(255,255,255,0.14); border-radius:100px; padding:6px 12px; }
+
+  @media (min-width:681px) and (max-width:980px){
+    .service-grid{ display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:170px; gap:14px; }
+    .service-card.big, .service-card.wide{ grid-column:span 2; }
+    .service-card.wide{ flex-direction:row; align-items:center; justify-content:space-between; gap:28px; }
+    .service-card.wide .tag-row{ margin-top:0; flex-shrink:0; }
+  }
+  @media (min-width:981px){
+    .service-grid{
+      display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:180px 180px 170px;
+      grid-template-areas:
+        "feat feat s1 s2"
+        "feat feat s3 s4"
+        "wide wide wide wide";
+      gap:14px;
+    }
+    .service-card:nth-child(2){ grid-area:s1; }
+    .service-card:nth-child(3){ grid-area:s2; }
+    .service-card:nth-child(4){ grid-area:s3; }
+    .service-card:nth-child(5){ grid-area:s4; }
+    .service-card.big{ grid-area:feat; }
+    .service-card.wide{
+      grid-area:wide; flex-direction:row; align-items:center; justify-content:space-between;
+      gap:32px; padding:28px 40px;
+    }
+    .service-card.wide > div:first-child{ max-width:540px; }
+    .service-card.wide .tag-row{ margin-top:0; flex-shrink:0; }
+  }
+
+  /* portfolio */
+  .portfolio{ padding:90px 0 60px; }
+  .port-head{ margin-bottom:48px; }
+  .port-head h2{ font-size:clamp(28px,3vw,38px); margin-bottom:10px; }
+  .port-sub{ color:var(--text-muted); font-size:14.5px; max-width:420px; }
+  .port-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .port-slot{
+    aspect-ratio:4/3.2; border-radius:18px; border:1.5px dashed var(--gray-line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+    color:var(--text-muted); background:var(--gray-bg);
+    transition:border-color .3s ease, background .3s ease;
+  }
+  .port-slot:hover{ border-color:var(--black); background:var(--white); }
+  .port-slot .plus{ width:40px; height:40px; border-radius:50%; border:1.5px solid var(--gray-line); display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .port-slot span{ font-size:13px; text-align:center; padding:0 24px; }
+
+  /* portfolio live preview cards */
+  .port-card{
+    display:flex; flex-direction:column; border-radius:18px; overflow:hidden;
+    border:1px solid var(--gray-line); background:var(--white); text-decoration:none; color:inherit;
+    aspect-ratio:4/3.2; transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .port-card:hover{ box-shadow:0 26px 48px -22px rgba(0,0,0,0.2); }
+  .port-browser-bar{
+    height:30px; flex-shrink:0; display:flex; align-items:center; gap:6px; padding:0 12px;
+    background:var(--gray-bg); border-bottom:1px solid var(--gray-line);
+  }
+  .pb-dot{ width:7px; height:7px; border-radius:50%; }
+  .pb1{ background:#E8756A; } .pb2{ background:#E8C33D; } .pb3{ background:#6AC97E; }
+  .pb-url{ margin-left:8px; font-size:10.5px; color:var(--text-muted); font-weight:500; }
+  .port-frame-wrap{ position:relative; flex:1; overflow:hidden; background:var(--gray-bg); }
+  .port-frame-wrap iframe{
+    position:absolute; top:0; left:0; width:400%; height:3400px; border:0; pointer-events:none;
+    animation:portScroll 26s ease-in-out infinite;
+  }
+  .port-card:hover .port-frame-wrap iframe{ animation-play-state:paused; }
+  @keyframes portScroll{
+    0%,8%{ transform:translateY(0); }
+    45%,55%{ transform:translateY(-2650px); }
+    92%,100%{ transform:translateY(0); }
+  }
+  .port-frame-wrap.pending{ display:flex; align-items:center; justify-content:center; }
+  .port-pending-note{ font-size:12.5px; color:var(--text-muted); text-align:center; padding:0 24px; }
+  .port-live-badge{
+    position:absolute; top:12px; right:12px; z-index:2;
+    background:rgba(255,255,255,0.92); backdrop-filter:blur(6px);
+    border-radius:100px; padding:6px 12px 6px 10px; display:flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:600; color:var(--text); box-shadow:0 6px 16px -6px rgba(0,0,0,0.2);
+  }
+  .port-live-dot{ width:6px; height:6px; border-radius:50%; background:#4CAF6C; position:relative; }
+  .port-live-dot::after{
+    content:''; position:absolute; inset:-4px; border-radius:50%; border:1.5px solid #4CAF6C;
+    animation:portPulse 1.8s infinite;
+  }
+  @keyframes portPulse{ 0%{ transform:scale(0.6); opacity:1; } 100%{ transform:scale(1.9); opacity:0; } }
+  .port-card-label{
+    padding:14px 18px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+    border-top:1px solid var(--gray-line); background:var(--white); gap:10px;
+  }
+  .port-card-title{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:14px; }
+  .port-card-tag{ font-size:11px; color:var(--text-muted); text-align:right; }
+
+  /* testimonial marquee */
+  .testi{ padding:10px 0 90px; }
+  .testi-marquee{ overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
+  .testi-track{ display:flex; gap:20px; width:max-content; animation:testiScroll 40s linear infinite; padding:4px 32px; }
+  .testi-marquee:hover .testi-track{ animation-play-state:paused; }
+  @keyframes testiScroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  .testi-card{
+    flex:0 0 320px; border:1px solid var(--gray-line); border-radius:20px;
+    background:var(--gray-bg); padding:30px 26px; color:var(--text-muted);
+  }
+  .testi-card .quote-mark{ font-family:'Plus Jakarta Sans',sans-serif; font-size:36px; color:var(--gray-line); font-weight:800; line-height:1; margin-bottom:12px; display:block; }
+  .testi-card p{ font-size:13.8px; line-height:1.65; color:var(--text); font-weight:400; margin-bottom:22px; }
+  .testi-person{ display:flex; align-items:center; gap:12px; }
+  .testi-avatar{
+    width:38px; height:38px; border-radius:50%; background:var(--black); color:var(--white);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;
+    font-family:'Plus Jakarta Sans',sans-serif; flex-shrink:0;
+  }
+  .testi-person div span{ display:block; }
+  .testi-person .t-name{ font-size:13.5px; font-weight:600; color:var(--text); }
+  .testi-person .t-role{ font-size:12px; color:var(--text-muted); margin-top:1px; }
+
+  /* faq */
+  .faq{ padding:10px 0 90px; }
+  .faq-head{ max-width:520px; margin-bottom:40px; }
+  .faq-head h2{ font-size:clamp(26px,3vw,34px); margin-bottom:10px; }
+  .faq-head p{ color:var(--text-muted); font-size:14.5px; line-height:1.6; }
+  .faq-list{ max-width:760px; }
+  .faq-item{ border-top:1px solid var(--gray-line); padding:22px 0; }
+  .faq-item:last-child{ border-bottom:1px solid var(--gray-line); }
+  .faq-item summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between;
+    font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:16px; color:var(--text);
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-icon{ font-size:20px; color:var(--text-muted); transition:transform .25s ease; flex-shrink:0; margin-left:16px; font-weight:400; }
+  .faq-item[open] .faq-icon{ transform:rotate(45deg); }
+  .faq-item p{ color:var(--text-muted); font-size:14.5px; line-height:1.65; margin-top:14px; max-width:640px; font-weight:400; }
+
+  /* CTA */
+  .cta{ background:var(--black); color:var(--text-on-dark); border-radius:28px; margin:0 24px; padding:70px 60px; text-align:center; }
+  .cta-inner{ max-width:600px; margin:0 auto; }
+  .cta h2{ font-size:clamp(30px,4vw,44px); color:var(--text-on-dark); margin-bottom:18px; }
+  .cta p{ color:var(--text-on-dark-muted); font-size:15.5px; margin-bottom:36px; line-height:1.6; font-weight:400; }
+  .cta-btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+  /* footer */
+  footer{ padding:60px 0 34px; }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:64px; }
+  .foot-brand .logo{ margin-bottom:14px; }
+  .foot-brand p{ color:var(--text-muted); font-size:14px; line-height:1.6; max-width:260px; font-weight:400; }
+  .foot-col h5{ font-size:12.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin-bottom:18px; }
+  .foot-col a{ display:block; font-size:14px; color:var(--text); margin-bottom:12px; opacity:.82; font-weight:500; }
+  .foot-col a:hover{ opacity:1; }
+  .foot-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:28px; border-top:1px solid var(--gray-line); font-size:12.5px; color:var(--text-muted); flex-wrap:wrap; gap:12px; }
+
+  .reveal{ opacity:0; transform:translateY(24px) scale(0.98); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+  .reveal.in{ opacity:1; transform:translateY(0) scale(1); }
+  .feature-card.reveal.in, .proc-card.reveal.in, .service-card.reveal.in, .port-slot.reveal.in{ transition-delay:calc(var(--i,0) * 0.08s); }
+
+  /* tilt-enabled cards */
+  .tilt{ transform-style:preserve-3d; will-change:transform; transition:transform .15s ease-out, box-shadow .3s ease; }
+
+  /* magnetic buttons */
+  .magnetic{ will-change:transform; }
+
+  /* dark section cursor spotlight */
+  .spot{ position:relative; }
+  .spot::after{
+    content:''; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+    background:radial-gradient(circle 280px at var(--sx,50%) var(--sy,50%), rgba(255,255,255,0.06), transparent 70%);
+    opacity:0; transition:opacity .4s ease; z-index:0;
+  }
+  .spot:hover::after{ opacity:1; }
+  .spot > *{ position:relative; z-index:1; }
+
+  @media (max-width:980px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; }
+    .stat-block{ grid-template-columns:1fr; text-align:left; }
+    .process-grid{ grid-template-columns:1fr 1fr; }
+    .features-grid{ grid-template-columns:1fr 1fr; }
+    .port-grid{ grid-template-columns:1fr 1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:680px){
+    .nav-links{ display:none; }
+    .menu-btn{ display:block; }
+    .wrap{ padding:0 20px; }
+    .process-grid, .features-grid, .port-grid{ grid-template-columns:1fr; }
+    .services, .cta{ margin:0 12px; border-radius:20px; padding:70px 26px; }
+    .foot-grid{ grid-template-columns:1fr 1fr; gap:32px; }
+    .stat-num{ font-size:44px; }
+    .proc-card:nth-child(2), .proc-card:nth-child(4){ transform:none; }
+    .about-grid{ gap:28px; }
+    .stat-block{ margin-top:32px; padding:32px 28px; gap:24px; }
+    .features-grid{ gap:16px; }
+    .process-grid{ gap:18px; padding-top:6px; }
+    .hero{ padding:48px 0 56px; }
+    .about{ padding:56px 0 40px; }
+    .features{ padding:6px 0 40px; }
+    .process{ padding:16px 0 56px; }
+    .portfolio{ padding:56px 0 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="scroll-bar"><div class="scroll-bar-fill"></div></div>
+
+<header>
+  <nav>
+    <div class="logo">Babaro<span class="dot"></span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#portfolio">Portfolio</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary magnetic">
+        Contact Us
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+      </a>
+      <button class="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="reveal in">
+      <h1>We build websites & digital platforms</h1>
+      <p class="lead">From landing pages to full web applications, we design, build, and maintain digital products that help your business grow — combining strategy, clean design, and solid engineering in every project.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary magnetic">
+          Start a Project
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+        </a>
+        <a href="#portfolio" class="btn btn-outline">View Portfolio</a>
+      </div>
+      <p class="hero-note">Free initial consultation · Response within 24 hours</p>
+    </div>
+    <div class="hero-visual reveal in" id="heroVisual">
+      <div class="photo-frame">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <span>Add a photo or project preview here</span>
+      </div>
+      <div class="stat-tag" id="floatTag1">
+        <div class="avatars"><div></div><div></div><div></div></div>
+        50+ Projects Delivered
+      </div>
+      <div class="caption-tag" id="floatTag2"><span class="spark"></span>Built for Growth</div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap strip-inner">
+    <div class="strip-track">
+      <span>Ruang Kopi</span><span>Ature</span><span>Medan Group</span><span>Nusa Retail</span><span>Kirana</span><span>Batavia Creative</span>
+      <span>Ruang Kopi</span><span>Ature</span><span>Medan Group</span><span>Nusa Retail</span><span>Kirana</span><span>Batavia Creative</span>
+    </div>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="eyebrow">About Us</div>
+        <h2>Your dedicated partner for web & digital growth</h2>
+      </div>
+      <div class="reveal">
+        <p>Babaro is a web development studio focused on one thing: building digital products that actually get used and deliver results. We combine clean design, solid code, and clear strategy from day one.</p>
+        <p>Every project starts with understanding your business goals, not just following trends. The result is a website or platform that looks great and works hard to hit your targets.</p>
+        <p>We've worked with retail brands, F&B businesses, agencies, and B2B companies — each with different goals, but the same need for a digital presence that's fast, clear, and easy to manage.</p>
+      </div>
+    </div>
+
+    <div class="stat-block reveal">
+      <div class="stat-num"><span class="counter" data-target="40">0</span>%<small>Average increase in conversion on landing pages we've rebuilt</small></div>
+      <div class="pill-row">
+        <div class="pill">Custom design, not templates</div>
+        <div class="pill">Clean, scalable code</div>
+        <div class="pill">Optimized for speed & SEO</div>
+        <div class="pill">Ongoing support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="why-us">
+  <div class="wrap">
+    <div class="features-head reveal">
+      <div class="eyebrow">Why Babaro</div>
+      <h2>Built on strategy, not guesswork</h2>
+      <p>Every decision, from layout to code, is made with a reason behind it. Here's what that looks like in practice.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card tilt reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg></div>
+        <h3>Strategy First</h3>
+        <p>We start by understanding your goals and audience, so every page has a clear purpose instead of guesswork.</p>
+      </div>
+      <div class="feature-card tilt reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <h3>Built for Speed</h3>
+        <p>Every site is optimized for fast load times and search visibility from the very first line of code.</p>
+      </div>
+      <div class="feature-card tilt reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg></div>
+        <h3>Scalable Code</h3>
+        <p>We build with clean architecture, so your site can grow with new pages and features without a rebuild.</p>
+      </div>
+      <div class="feature-card tilt reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <h3>Clear Communication</h3>
+        <p>You'll get regular updates and a straightforward timeline — no guessing where your project stands.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="process-head reveal">
+      <h2>A clear process from kickoff to launch</h2>
+      <p>Four simple stages with open communication at every step, so you always know where your project stands.</p>
+    </div>
+    <div class="process-grid">
+      <div class="proc-card tilt reveal">
+        <span class="proc-num">01</span>
+        <h3>Discover</h3>
+        <p>We dig into your goals, audience, and needs before a single pixel is drawn.</p>
+      </div>
+      <div class="proc-card tilt reveal">
+        <span class="proc-num">02</span>
+        <h3>Design</h3>
+        <p>Structure and visuals are shaped around your brand, ready for you to review.</p>
+      </div>
+      <div class="proc-card tilt reveal">
+        <span class="proc-num">03</span>
+        <h3>Develop</h3>
+        <p>We build with clean, fast code that's easy to maintain and extend.</p>
+      </div>
+      <div class="proc-card tilt reveal">
+        <span class="proc-num">04</span>
+        <h3>Deploy</h3>
+        <p>We test, launch, and monitor performance to keep everything running smoothly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="services">
+  <div class="services spot" id="servicesSpot">
+    <div class="services-inner wrap" style="padding:0 32px;">
+      <div class="services-head reveal">
+        <div class="eyebrow on-dark">What We Do</div>
+        <h2>From a first page to a full platform</h2>
+        <p>Every project starts small and is built to expand. Here's what we typically work on, though most projects mix more than one of these.</p>
+      </div>
+      <div class="service-grid">
+        <div class="service-card big reveal">
+          <div>
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M9 21V12h6v9"/></svg></div>
+            <h4>Online Store</h4>
+            <p>A complete e-commerce platform — product catalog, cart, checkout, and payment integration built to convert visitors into customers.</p>
+          </div>
+          <div class="tag-row">
+            <span>Product Catalog</span><span>Payments</span><span>Inventory</span>
+          </div>
+        </div>
+        <div class="service-card tilt reveal">
+          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 4v14"/></svg></div>
+          <h4>Landing Page</h4>
+          <p>Conversion-focused pages for campaigns, product launches, or ad traffic.</p>
+        </div>
+        <div class="service-card tilt reveal">
+          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+          <h4>Company Profile</h4>
+          <p>An official website that builds credibility and trust for your business.</p>
+        </div>
+        <div class="service-card tilt reveal">
+          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+          <h4>Web App</h4>
+          <p>Web-based applications built around your team's operations or digital product.</p>
+        </div>
+        <div class="service-card tilt reveal">
+          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 6 6 1-4.5 4.5L17.5 20 12 17l-5.5 3 1-6.5L3 9l6-1z"/></svg></div>
+          <h4>Custom Platform</h4>
+          <p>Digital solutions designed around your specific workflow, not a generic template.</p>
+        </div>
+        <div class="service-card wide reveal">
+          <div>
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></div>
+            <h4>Maintenance & Support</h4>
+            <p>Ongoing upkeep after launch — content updates, bug fixes, security patches, and performance monitoring so your site keeps running smoothly.</p>
+          </div>
+          <div class="tag-row">
+            <span>Content Updates</span><span>Security</span><span>Monitoring</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio" id="portfolio">
+  <div class="wrap">
+    <div class="port-head reveal">
+      <div class="eyebrow">Portfolio</div>
+      <h2>Projects we've delivered</h2>
+      <p class="port-sub">A selection of websites and platforms we've designed and built across different industries.</p>
+    </div>
+    <div class="port-grid">
+      <a class="port-card tilt reveal" href="https://lithen.vercel.app" target="_blank" rel="noopener">
+        <div class="port-browser-bar">
+          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
+          <span class="pb-url">lithen.vercel.app</span>
+        </div>
+        <div class="port-frame-wrap">
+          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
+          <iframe src="https://lithen.vercel.app" loading="lazy" tabindex="-1" title="Lithen preview"></iframe>
+        </div>
+        <div class="port-card-label">
+          <span class="port-card-title">Lithen</span>
+          <span class="port-card-tag">Interior Decor · E-commerce</span>
+        </div>
+      </a>
+      <a class="port-card tilt reveal" href="https://wanderly-plum.vercel.app" target="_blank" rel="noopener">
+        <div class="port-browser-bar">
+          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
+          <span class="pb-url">wanderly-plum.vercel.app</span>
+        </div>
+        <div class="port-frame-wrap">
+          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
+          <iframe src="https://wanderly-plum.vercel.app" loading="lazy" tabindex="-1" title="Wanderly preview"></iframe>
+        </div>
+        <div class="port-card-label">
+          <span class="port-card-title">Wanderly</span>
+          <span class="port-card-tag">Travel & Tours · Booking</span>
+        </div>
+      </a>
+      <div class="port-slot reveal">
+        <div class="plus">+</div>
+        <span>More projects coming soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="wrap">
+    <div class="port-head reveal" style="text-align:center; margin-bottom:36px;">
+      <div class="eyebrow">Testimonials</div>
+      <h2>What clients say about working with us</h2>
+    </div>
+  </div>
+  <div class="testi-marquee">
+    <div class="testi-track">
+      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p><div class="testi-person"><div class="testi-avatar">RS</div><div><span class="t-name">Raka Setiawan</span><span class="t-role">Owner, Ruang Kopi</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p><div class="testi-person"><div class="testi-avatar">AN</div><div><span class="t-name">Amanda Nugroho</span><span class="t-role">Marketing Lead, Ature</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p><div class="testi-person"><div class="testi-avatar">TH</div><div><span class="t-name">Teddy Hartono</span><span class="t-role">Founder, Nusa Retail</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p><div class="testi-person"><div class="testi-avatar">DP</div><div><span class="t-name">Dian Pratiwi</span><span class="t-role">Co-founder, Kirana</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p><div class="testi-person"><div class="testi-avatar">MF</div><div><span class="t-name">Mikael Fadli</span><span class="t-role">Ops Manager, Medan Group</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p><div class="testi-person"><div class="testi-avatar">RS</div><div><span class="t-name">Raka Setiawan</span><span class="t-role">Owner, Ruang Kopi</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p><div class="testi-person"><div class="testi-avatar">AN</div><div><span class="t-name">Amanda Nugroho</span><span class="t-role">Marketing Lead, Ature</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p><div class="testi-person"><div class="testi-avatar">TH</div><div><span class="t-name">Teddy Hartono</span><span class="t-role">Founder, Nusa Retail</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p><div class="testi-person"><div class="testi-avatar">DP</div><div><span class="t-name">Dian Pratiwi</span><span class="t-role">Co-founder, Kirana</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p><div class="testi-person"><div class="testi-avatar">MF</div><div><span class="t-name">Mikael Fadli</span><span class="t-role">Ops Manager, Medan Group</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Common questions</h2>
+      <p>Can't find what you're looking for? Reach out and we'll get back to you within a day.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item reveal" open>
+        <summary>How long does a typical project take?<span class="faq-icon">+</span></summary>
+        <p>Most landing pages take about 1–2 weeks. Company profiles and online stores typically take 3–5 weeks, while custom web apps or platforms can take 6–10 weeks depending on scope.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Do you offer support after launch?<span class="faq-icon">+</span></summary>
+        <p>Yes. Every project includes a support period right after launch, and we offer ongoing maintenance packages for updates, fixes, and monitoring beyond that.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Can you work with our existing brand identity?<span class="faq-icon">+</span></summary>
+        <p>Absolutely. We can design within your existing brand guidelines, or help you develop a simple visual identity if you don't have one yet.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>How much does a project cost?<span class="faq-icon">+</span></summary>
+        <p>It depends on scope and complexity. After an initial consultation, we'll send a clear proposal with pricing before any work begins — no hidden costs.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="contact">
+  <div class="cta spot" id="ctaSpot">
+    <div class="cta-inner reveal">
+      <h2>Ready to start your digital project?</h2>
+      <p>Tell us what you need, and we'll help you map out the plan, from design to launch.</p>
+      <div class="cta-btns">
+        <a href="mailto:hello@babarostudio.com" class="btn btn-white magnetic">
+          Send a Message
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+        </a>
+        <a href="#" class="btn btn-ghost-dark">Book a Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">Babaro<span class="dot"></span></div>
+        <p>A web & digital platform studio helping businesses build a quality online presence.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Navigation</h5>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#portfolio">Portfolio</a>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <a href="#services">Landing Page</a>
+        <a href="#services">Company Profile</a>
+        <a href="#services">Online Store</a>
+        <a href="#services">Web App</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@babarostudio.com">hello@babarostudio.com</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Babaro Studio. All rights reserved.</span>
+      <span>Made with ♥ in Indonesia</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // reveal on scroll
+  document.querySelectorAll('.features-grid, .process-grid, .service-grid, .port-grid').forEach(group=>{
+    Array.from(group.children).forEach((child, i)=>{ child.style.setProperty('--i', i); });
+  });
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // mobile nav
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  menuBtn?.addEventListener('click', ()=>{
+    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    navLinks.style.cssText += 'position:absolute; top:100%; left:0; right:0; flex-direction:column; background:var(--white); padding:20px 32px; border-bottom:1px solid var(--gray-line); gap:18px;';
+  });
+
+  // scroll progress bar
+  const scrollFill = document.querySelector('.scroll-bar-fill');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    if(scrollFill) scrollFill.style.width = scrolled + '%';
+  }, { passive:true });
+
+  // animated counter
+  const counterEls = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting && !entry.target.dataset.done){
+        entry.target.dataset.done = '1';
+        const target = parseInt(entry.target.dataset.target, 10);
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now){
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          entry.target.textContent = Math.round(eased * target);
+          if(progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+    });
+  }, { threshold:0.5 });
+  counterEls.forEach(el=>counterObserver.observe(el));
+
+  // magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${x*0.25}px, ${y*0.35}px)`;
+    });
+    btn.addEventListener('mouseleave', ()=>{ btn.style.transform = 'translate(0,0)'; });
+  });
+
+  // tilt cards
+  document.querySelectorAll('.tilt').forEach(card=>{
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateX(${(-y*7).toFixed(2)}deg) rotateY(${(x*7).toFixed(2)}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+  });
+
+  // cursor spotlight on dark sections
+  document.querySelectorAll('.spot').forEach(section=>{
+    section.addEventListener('mousemove', (e)=>{
+      const r = section.getBoundingClientRect();
+      section.style.setProperty('--sx', ((e.clientX - r.left)/r.width*100) + '%');
+      section.style.setProperty('--sy', ((e.clientY - r.top)/r.height*100) + '%');
+    });
+  });
+
+  // subtle hero parallax
+  const heroVisual = document.getElementById('heroVisual');
+  const tag1 = document.getElementById('floatTag1');
+  const tag2 = document.getElementById('floatTag2');
+  if(heroVisual && window.matchMedia('(min-width:981px)').matches){
+    document.querySelector('.hero')?.addEventListener('mousemove', (e)=>{
+      const r = heroVisual.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width/2) / r.width;
+      const y = (e.clientY - r.top - r.height/2) / r.height;
+      heroVisual.style.transform = `translate(${x*8}px, ${y*8}px)`;
+      if(tag1) tag1.style.transform = `translate(${x*-14}px, ${y*-14}px)`;
+      if(tag2) tag2.style.transform = `translate(${x*-10}px, ${y*-10}px)`;
+    });
+  }
+</script>
+
+</body>
+</html>
