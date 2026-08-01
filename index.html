@@ -284,14 +284,15 @@
   .pb1{ background:#E8756A; } .pb2{ background:#E8C33D; } .pb3{ background:#6AC97E; }
   .pb-url{ margin-left:8px; font-size:10.5px; color:var(--text-muted); font-weight:500; }
   .port-frame-wrap{ position:relative; flex:1; overflow:hidden; background:var(--gray-bg); }
-  .port-frame-wrap iframe{
-    position:absolute; top:0; left:0; width:400%; height:3400px; border:0; pointer-events:none;
-    animation:portScroll 26s ease-in-out infinite;
+  .port-frame-scale{ position:absolute; top:0; left:0; transform-origin:top left; will-change:transform; }
+  .port-frame-scale iframe{
+    display:block; width:1440px; height:6000px; border:0; pointer-events:none;
+    animation:portScroll 28s ease-in-out infinite;
   }
-  .port-card:hover .port-frame-wrap iframe{ animation-play-state:paused; }
+  .port-card:hover .port-frame-scale iframe{ animation-play-state:paused; }
   @keyframes portScroll{
     0%,8%{ transform:translateY(0); }
-    45%,55%{ transform:translateY(-2650px); }
+    45%,55%{ transform:translateY(-4200px); }
     92%,100%{ transform:translateY(0); }
   }
   .port-frame-wrap.pending{ display:flex; align-items:center; justify-content:center; }
@@ -640,7 +641,7 @@
         </div>
         <div class="port-frame-wrap">
           <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <iframe src="https://lithen.vercel.app" loading="lazy" tabindex="-1" title="Lithen preview"></iframe>
+          <div class="port-frame-scale"><iframe src="https://lithen.vercel.app" loading="lazy" tabindex="-1" title="Lithen preview"></iframe></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Lithen</span>
@@ -654,7 +655,7 @@
         </div>
         <div class="port-frame-wrap">
           <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <iframe src="https://wanderly-plum.vercel.app" loading="lazy" tabindex="-1" title="Wanderly preview"></iframe>
+          <div class="port-frame-scale"><iframe src="https://wanderly-plum.vercel.app" loading="lazy" tabindex="-1" title="Wanderly preview"></iframe></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Wanderly</span>
@@ -863,6 +864,19 @@
       if(tag2) tag2.style.transform = `translate(${x*-10}px, ${y*-10}px)`;
     });
   }
+  // portfolio preview scaling — fit the desktop-width iframe into its card box
+  function scalePortFrames(){
+    document.querySelectorAll('.port-frame-wrap').forEach(wrap=>{
+      const scaler = wrap.querySelector('.port-frame-scale');
+      if(!scaler) return;
+      const iframe = scaler.querySelector('iframe');
+      const scale = wrap.clientWidth / iframe.offsetWidth;
+      scaler.style.transform = `scale(${scale})`;
+    });
+  }
+  window.addEventListener('load', scalePortFrames);
+  window.addEventListener('resize', scalePortFrames);
+  scalePortFrames();
 </script>
 
 </body>
