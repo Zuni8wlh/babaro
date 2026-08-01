@@ -863,19 +863,26 @@
       if(tag2) tag2.style.transform = `translate(${x*-10}px, ${y*-10}px)`;
     });
   }
-  // portfolio preview scaling — fit the desktop-width iframe into its card box
-  function scalePortFrames(){
+  // portfolio/hero preview scaling — fit the desktop-width iframe into its box, stays correct via ResizeObserver
+  function initFrameScaling(){
     document.querySelectorAll('.port-frame-wrap').forEach(wrap=>{
       const scaler = wrap.querySelector('.port-frame-scale');
       if(!scaler) return;
       const iframe = scaler.querySelector('iframe');
-      const scale = wrap.clientWidth / iframe.offsetWidth;
-      scaler.style.transform = `scale(${scale})`;
+      const baseWidth = 1440; // matches the fixed CSS width set on .port-frame-scale iframe
+      const applyScale = ()=>{
+        const w = wrap.clientWidth;
+        if(w > 0){ scaler.style.transform = `scale(${w / baseWidth})`; }
+      };
+      applyScale();
+      if('ResizeObserver' in window){
+        new ResizeObserver(applyScale).observe(wrap);
+      } else {
+        window.addEventListener('resize', applyScale);
+      }
     });
   }
-  window.addEventListener('load', scalePortFrames);
-  window.addEventListener('resize', scalePortFrames);
-  scalePortFrames();
+  initFrameScaling();
 </script>
 
 </body>
