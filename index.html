@@ -269,7 +269,7 @@
   .port-carousel-wrap{ position:relative; padding:8px 0 12px; }
   .port-carousel{
     display:flex; gap:26px; overflow-x:auto; scroll-snap-type:x mandatory;
-    scroll-behavior:smooth; padding:44px 32px 50px;
+    scroll-behavior:smooth; padding:44px calc(50% - 190px) 50px;
     -ms-overflow-style:none; scrollbar-width:none;
   }
   .port-carousel::-webkit-scrollbar{ display:none; }
@@ -313,6 +313,7 @@
     animation:portScroll 26s ease-in-out infinite;
   }
   .port-card:hover .port-frame-scale iframe{ animation-play-state:paused; }
+  .port-card:hover .port-shot img{ animation-play-state:paused; }
   @keyframes portScroll{
     0%,8%{ transform:translateY(0); }
     45%,55%{ transform:translateY(-2300px); }
@@ -457,7 +458,7 @@
     .process-grid{ grid-template-columns:1fr 1fr; }
     .features-grid{ grid-template-columns:1fr 1fr; }
     .port-card{ width:320px; flex-basis:320px; }
-    .port-carousel{ padding:24px 24px 30px; }
+    .port-carousel{ padding:24px calc(50% - 160px) 30px; }
     .foot-grid{ grid-template-columns:1fr 1fr; }
   }
   @media (max-width:680px){
@@ -467,7 +468,7 @@
     .features{ display:none; }
     .process-grid, .features-grid{ grid-template-columns:1fr; }
     .port-card{ width:260px; flex-basis:260px; }
-    .port-carousel{ padding:20px 20px 26px; gap:16px; }
+    .port-carousel{ padding:20px calc(50% - 130px) 26px; gap:16px; }
     .port-nav{ width:38px; height:38px; }
     .faq-grid{ grid-template-columns:1fr; gap:32px; }
     .faq-visual{ aspect-ratio:16/10; order:-1; }
@@ -721,18 +722,17 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <div class="port-carousel" id="portCarousel">
-      <a class="port-card tilt reveal" href="https://ondo-iota.vercel.app" target="_blank" rel="noopener">
+      <a class="port-card tilt reveal" href="https://ftc-world.vercel.app" target="_blank" rel="noopener">
         <div class="port-browser-bar">
           <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
-          <span class="pb-url">ondo-iota.vercel.app</span>
+          <span class="pb-url">ftc-world.vercel.app</span>
         </div>
         <div class="port-frame-wrap">
-          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe data-src="https://ondo-iota.vercel.app" tabindex="-1" title="Ondo preview"></iframe></div>
+          <div class="port-shot"><img src="assets/preview-ftcworld.jpg" alt="FTC World preview" loading="lazy"></div>
         </div>
         <div class="port-card-label">
-          <span class="port-card-title">Ondo</span>
-          <span class="port-card-tag">Product · E-commerce</span>
+          <span class="port-card-title">FTC World</span>
+          <span class="port-card-tag">AI Visual Production Studio</span>
         </div>
       </a>
       <a class="port-card tilt reveal" href="https://lithen.vercel.app" target="_blank" rel="noopener">
@@ -741,8 +741,7 @@
           <span class="pb-url">lithen.vercel.app</span>
         </div>
         <div class="port-frame-wrap">
-          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe data-src="https://lithen.vercel.app" data-shot="assets/mobile-fallback-lithen.jpg" tabindex="-1" title="Lithen preview"></iframe></div>
+          <div class="port-shot"><img src="assets/mobile-fallback-lithen.jpg" alt="Lithen preview" loading="lazy"></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Lithen</span>
@@ -755,8 +754,7 @@
           <span class="pb-url">wanderly-plum.vercel.app</span>
         </div>
         <div class="port-frame-wrap">
-          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe data-src="https://wanderly-plum.vercel.app" data-shot="assets/mobile-fallback-wanderly.jpg" tabindex="-1" title="Wanderly preview"></iframe></div>
+          <div class="port-shot"><img src="assets/mobile-fallback-wanderly.jpg" alt="Wanderly preview" loading="lazy"></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Wanderly</span>
@@ -769,22 +767,39 @@
           <span class="pb-url">rally-ten-ashen.vercel.app</span>
         </div>
         <div class="port-frame-wrap">
-          <div class="port-live-badge"><span class="port-live-dot"></span>Live Project</div>
-          <div class="port-frame-scale"><iframe data-src="https://rally-ten-ashen.vercel.app" data-shot="assets/mobile-fallback-rally.jpg" tabindex="-1" title="Rally preview"></iframe></div>
+          <div class="port-shot"><img src="assets/mobile-fallback-rally.jpg" alt="Rally preview" loading="lazy"></div>
         </div>
         <div class="port-card-label">
           <span class="port-card-title">Rally</span>
           <span class="port-card-tag">Sports Community · Booking</span>
         </div>
       </a>
-      <div class="port-card port-empty tilt reveal">
-        <div class="plus">+</div>
-        <span>Project slot — coming soon</span>
-      </div>
-      <div class="port-card port-empty tilt reveal">
-        <div class="plus">+</div>
-        <span>Project slot — coming soon</span>
-      </div>
+      <a class="port-card tilt reveal" href="https://fuyuan-phi.vercel.app" target="_blank" rel="noopener">
+        <div class="port-browser-bar">
+          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
+          <span class="pb-url">fuyuan-phi.vercel.app</span>
+        </div>
+        <div class="port-frame-wrap">
+          <div class="port-shot"><img src="assets/preview-fuyuan.jpg" alt="Fuyuan preview" loading="lazy"></div>
+        </div>
+        <div class="port-card-label">
+          <span class="port-card-title">Fuyuan</span>
+          <span class="port-card-tag">Feng Shui & Fortune Goods · E-commerce</span>
+        </div>
+      </a>
+      <a class="port-card tilt reveal" href="https://green-fresh-olive.vercel.app" target="_blank" rel="noopener">
+        <div class="port-browser-bar">
+          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
+          <span class="pb-url">green-fresh-olive.vercel.app</span>
+        </div>
+        <div class="port-frame-wrap">
+          <div class="port-shot"><img src="assets/preview-greenfresh.jpg" alt="GreenFresh preview" loading="lazy"></div>
+        </div>
+        <div class="port-card-label">
+          <span class="port-card-title">GreenFresh</span>
+          <span class="port-card-tag">Organic Produce · E-commerce</span>
+        </div>
+      </a>
       </div>
       <button class="port-nav port-next" aria-label="Next project">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
@@ -1060,6 +1075,12 @@
     const cards = Array.from(carousel.querySelectorAll('.port-card'));
     const prevBtn = document.querySelector('.port-prev');
     const nextBtn = document.querySelector('.port-next');
+
+    // start with the first card inset (not floating in empty space), but keep the
+    // full centering padding intact so it can still be scrolled all the way to center
+    const inset = 32;
+    const padLeft = parseFloat(getComputedStyle(carousel).paddingLeft) || 0;
+    carousel.scrollLeft = Math.max(0, padLeft - inset);
 
     function updateCenter(){
       const rect = carousel.getBoundingClientRect();
