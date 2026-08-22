@@ -96,6 +96,7 @@
   header.scrolled .logo-img{ height:24px; }
   .foot-brand .logo-img{ height:28px; margin-bottom:14px; }
   .nav-links{ display:flex; gap:36px; }
+  .nav-menu-contact{ display:none; }
   .nav-links a{ font-size:14px; font-weight:500; color:var(--text-muted); transition:color .2s ease; }
   .nav-links a:hover{ color:var(--text); }
   .nav-cta{ display:flex; align-items:center; gap:18px; }
@@ -339,16 +340,7 @@
     background:var(--gray-bg); padding:30px 26px; color:var(--text-muted);
   }
   .testi-card .quote-mark{ font-family:'Plus Jakarta Sans',sans-serif; font-size:36px; color:var(--gray-line); font-weight:800; line-height:1; margin-bottom:12px; display:block; }
-  .testi-card p{ font-size:13.8px; line-height:1.65; color:var(--text); font-weight:400; margin-bottom:22px; }
-  .testi-person{ display:flex; align-items:center; gap:12px; }
-  .testi-avatar{
-    width:38px; height:38px; border-radius:50%; background:var(--black); color:var(--white);
-    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;
-    font-family:'Plus Jakarta Sans',sans-serif; flex-shrink:0;
-  }
-  .testi-person div span{ display:block; }
-  .testi-person .t-name{ font-size:13.5px; font-weight:600; color:var(--text); }
-  .testi-person .t-role{ font-size:12px; color:var(--text-muted); margin-top:1px; }
+  .testi-card p{ font-size:13.8px; line-height:1.65; color:var(--text); font-weight:400; margin-bottom:0; }
 
   /* faq */
   .faq{ padding:60px 0; }
@@ -395,9 +387,20 @@
   .foot-col a:hover{ opacity:1; }
   .foot-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:28px; border-top:1px solid var(--gray-line); font-size:12.5px; color:var(--text-muted); flex-wrap:wrap; gap:12px; }
 
-  .reveal{ opacity:0; transform:translateY(24px) scale(0.98); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-  .reveal.in{ opacity:1; transform:translateY(0) scale(1); }
-  .feature-card.reveal.in, .proc-card.reveal.in, .service-card.reveal.in, .port-slot.reveal.in{ transition-delay:calc(var(--i,0) * 0.08s); }
+  .reveal{
+    opacity:0;
+    transform:translateY(56px) scale(0.86);
+    filter:blur(10px);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s cubic-bezier(.16,1,.3,1);
+    will-change:transform, opacity, filter;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0px); }
+  .reveal h1, .reveal h2{
+    clip-path:inset(0 100% 0 0);
+    transition:clip-path 1s cubic-bezier(.16,1,.3,1) .12s;
+  }
+  .reveal.in h1, .reveal.in h2{ clip-path:inset(0 0% 0 0); }
+  .feature-card.reveal.in, .proc-card.reveal.in, .service-card.reveal.in, .port-slot.reveal.in{ transition-delay:calc(var(--i,0) * 0.1s); }
 
   /* tilt-enabled cards */
   .tilt{ transform-style:preserve-3d; will-change:transform; transition:transform .15s ease-out, box-shadow .3s ease; }
@@ -427,6 +430,8 @@
   @media (max-width:680px){
     .nav-links{ display:none; }
     .menu-btn{ display:block; }
+    .nav-menu-contact{ display:inline-flex; margin-top:8px; align-self:flex-start; }
+    .nav-cta .btn-primary{ display:none; }
     .wrap{ padding:0 20px; }
     .features{ display:none; }
     .process-grid, .features-grid{ grid-template-columns:1fr; }
@@ -436,7 +441,7 @@
     .faq-grid{ grid-template-columns:1fr; gap:32px; }
     .faq-visual{ aspect-ratio:16/10; order:-1; }
     .faq-inner{ margin:0 6px; border-radius:18px; padding:40px 20px; }
-    .services{ margin:0 2px; border-radius:16px; padding:56px 0; }
+    .services{ margin:0; border-radius:0; padding:56px 0; }
     .services-pad{ padding:0 20px; }
     .cta{ margin:0 12px; border-radius:20px; padding:56px 24px; }
     .foot-grid{ grid-template-columns:1fr 1fr; gap:32px; }
@@ -465,6 +470,10 @@
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#portfolio">Portfolio</a>
+      <a href="#contact" class="btn btn-primary nav-menu-contact">
+        Contact Us
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+      </a>
     </div>
     <div class="nav-cta">
       <a href="#contact" class="btn btn-primary magnetic">
@@ -511,9 +520,7 @@
         <h2>Dedicated Partner for Digital Presence</h2>
       </div>
       <div class="reveal">
-        <p>Babaro is a web development studio focused on one thing: building digital products that actually get used and deliver results. We combine clean design, solid code, and clear strategy from day one.</p>
-        <p>Every project starts with understanding business goals, not just following trends. The result is a website or platform that looks great and works hard to hit its targets.</p>
-        <p>We've worked with retail brands, F&B businesses, agencies, and B2B companies — each with different goals, but the same need for a digital presence that's fast, clear, and easy to manage.</p>
+        <p>Babaro is a web development builder focused on digital products that actually get used and deliver results. Every project starts with understanding business goals. The result is a website or platform that looks great and works hard to hit its targets. We've worked with retail brands, F&B businesses, agencies, and B2B companies — each with different goals, but the same need for a digital presence that's fast, clear, and easy to manage.</p>
       </div>
     </div>
 
@@ -754,16 +761,16 @@
   </div>
   <div class="testi-marquee">
     <div class="testi-track">
-      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p><div class="testi-person"><div class="testi-avatar">RS</div><div><span class="t-name">Raka Setiawan</span><span class="t-role">Owner, Ruang Kopi</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p><div class="testi-person"><div class="testi-avatar">AN</div><div><span class="t-name">Amanda Nugroho</span><span class="t-role">Marketing Lead, Ature</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p><div class="testi-person"><div class="testi-avatar">TH</div><div><span class="t-name">Teddy Hartono</span><span class="t-role">Founder, Nusa Retail</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p><div class="testi-person"><div class="testi-avatar">DP</div><div><span class="t-name">Dian Pratiwi</span><span class="t-role">Co-founder, Kirana</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p><div class="testi-person"><div class="testi-avatar">MF</div><div><span class="t-name">Mikael Fadli</span><span class="t-role">Ops Manager, Medan Group</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p><div class="testi-person"><div class="testi-avatar">RS</div><div><span class="t-name">Raka Setiawan</span><span class="t-role">Owner, Ruang Kopi</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p><div class="testi-person"><div class="testi-avatar">AN</div><div><span class="t-name">Amanda Nugroho</span><span class="t-role">Marketing Lead, Ature</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p><div class="testi-person"><div class="testi-avatar">TH</div><div><span class="t-name">Teddy Hartono</span><span class="t-role">Founder, Nusa Retail</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p><div class="testi-person"><div class="testi-avatar">DP</div><div><span class="t-name">Dian Pratiwi</span><span class="t-role">Co-founder, Kirana</span></div></div></div>
-      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p><div class="testi-person"><div class="testi-avatar">MF</div><div><span class="t-name">Mikael Fadli</span><span class="t-role">Ops Manager, Medan Group</span></div></div></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>They didn't just build a website, they helped us rethink our whole online funnel. Bookings went up within the first month.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Communication was clear from day one. No jargon, no delays — just steady progress and a site that actually loads fast.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>We came in with a messy spreadsheet-based catalog. Babaro turned it into an online store that our team can actually manage.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>The design felt custom, not templated. Every section had a clear reason for being there.</p></div>
+      <div class="testi-card"><span class="quote-mark">"</span><p>Post-launch support has been great — quick fixes and honest answers whenever we've needed changes.</p></div>
     </div>
   </div>
 </section>
@@ -864,7 +871,7 @@
     Array.from(group.children).forEach((child, i)=>{ child.style.setProperty('--i', i); });
   });
   const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+    entries.forEach(e=>{ e.target.classList.toggle('in', e.isIntersecting); });
   },{threshold:0.15});
   document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
