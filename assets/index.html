@@ -792,34 +792,6 @@
           <span class="port-card-tag">Organic Produce · E-commerce</span>
         </div>
       </a>
-      <a class="port-card tilt reveal" href="https://elaris-skincare.vercel.app" target="_blank" rel="noopener">
-        <div class="port-browser-bar">
-          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
-          <span class="pb-url">elaris-skincare.vercel.app</span>
-        </div>
-        <div class="port-frame-wrap">
-          <span class="port-demo-badge">Demo Project</span>
-          <div class="port-shot"><img src="assets/preview-elaris.jpg" alt="Elaris preview" loading="lazy"></div>
-        </div>
-        <div class="port-card-label">
-          <span class="port-card-title">Elaris</span>
-          <span class="port-card-tag">Skincare · E-commerce</span>
-        </div>
-      </a>
-      <a class="port-card tilt reveal" href="https://fruitymenu.vercel.app" target="_blank" rel="noopener">
-        <div class="port-browser-bar">
-          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
-          <span class="pb-url">fruitymenu.vercel.app</span>
-        </div>
-        <div class="port-frame-wrap">
-          <span class="port-demo-badge">Demo Project</span>
-          <div class="port-shot"><img src="assets/preview-fruity.jpg" alt="Fruity preview" loading="lazy"></div>
-        </div>
-        <div class="port-card-label">
-          <span class="port-card-title">Fruity</span>
-          <span class="port-card-tag">Food & Beverage · Menu</span>
-        </div>
-      </a>
       <a class="port-card tilt reveal" href="https://ftc-world.vercel.app" target="_blank" rel="noopener">
         <div class="port-browser-bar">
           <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
@@ -901,34 +873,6 @@
         <div class="port-card-label">
           <span class="port-card-title">GreenFresh</span>
           <span class="port-card-tag">Organic Produce · E-commerce</span>
-        </div>
-      </a>
-      <a class="port-card tilt reveal" href="https://elaris-skincare.vercel.app" target="_blank" rel="noopener">
-        <div class="port-browser-bar">
-          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
-          <span class="pb-url">elaris-skincare.vercel.app</span>
-        </div>
-        <div class="port-frame-wrap">
-          <span class="port-demo-badge">Demo Project</span>
-          <div class="port-shot"><img src="assets/preview-elaris.jpg" alt="Elaris preview" loading="lazy"></div>
-        </div>
-        <div class="port-card-label">
-          <span class="port-card-title">Elaris</span>
-          <span class="port-card-tag">Skincare · E-commerce</span>
-        </div>
-      </a>
-      <a class="port-card tilt reveal" href="https://fruitymenu.vercel.app" target="_blank" rel="noopener">
-        <div class="port-browser-bar">
-          <span class="pb-dot pb1"></span><span class="pb-dot pb2"></span><span class="pb-dot pb3"></span>
-          <span class="pb-url">fruitymenu.vercel.app</span>
-        </div>
-        <div class="port-frame-wrap">
-          <span class="port-demo-badge">Demo Project</span>
-          <div class="port-shot"><img src="assets/preview-fruity.jpg" alt="Fruity preview" loading="lazy"></div>
-        </div>
-        <div class="port-card-label">
-          <span class="port-card-title">Fruity</span>
-          <span class="port-card-tag">Food & Beverage · Menu</span>
         </div>
       </a>
       </div>
@@ -1251,7 +1195,7 @@
       // drifted a full set's width in — the duplicate set makes this invisible
       clearTimeout(wrapTimer);
       wrapTimer = setTimeout(()=>{
-        const setWidth = cards[8].offsetLeft - cards[0].offsetLeft;
+        const setWidth = cards[6].offsetLeft - cards[0].offsetLeft;
         if(carousel.scrollLeft >= setWidth){
           carousel.scrollLeft -= setWidth;
         }
@@ -1263,10 +1207,6 @@
     function step(dir){
       const cardWidth = cards[0].getBoundingClientRect().width;
       const gap = 26;
-      const setWidth = cards[8].offsetLeft - cards[0].offsetLeft;
-      if(dir === -1 && carousel.scrollLeft - (cardWidth + gap) < 0){
-        carousel.scrollLeft += setWidth;
-      }
       carousel.scrollBy({ left: dir * (cardWidth + gap), behavior:'smooth' });
     }
     prevBtn?.addEventListener('click', ()=>step(-1));
